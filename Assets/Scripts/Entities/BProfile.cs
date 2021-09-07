@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine.UI;
-using static Assets.Scripts.Helpers.Enums;
+using static Enums;
 
 namespace Assets.Scripts.Entities
 {

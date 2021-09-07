@@ -37,4 +37,17 @@ public class Enums
         Kgatleng,
         South_east
     }
+    public enum TourismSector
+    {
+        Wildlife,
+        AgriTourism,
+        CulturalTourism,
+        PaleoTourism,
+        RuralTourism,
+        HistoricalTourism,
+        BusinessTourism,
+        RecreationalTourism,
+        WellnessTourism,
+        Pilgrimage
+    }
 }

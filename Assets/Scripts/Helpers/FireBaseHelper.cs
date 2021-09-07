@@ -89,8 +89,6 @@ public class FireBaseHelper : MonoBehaviour
     }
     #endregion
     #region  Collect user
-
-   
     public async void LoadUser(string userId)
     {
         var datasnap = await _database.GetReference(userId).GetValueAsync();
