@@ -7,14 +7,20 @@ using System.Threading.Tasks;
 
 namespace Assets.Scripts.Helpers
 {
-    class Enums
+    public class Enums
     {
         public enum TourismSector
         {
             Wildlife,
             AgriTourism,
             CulturalTourism,
-            PaleoTourism
+            PaleoTourism, 
+            RuralTourism,
+            HistoricalTourism,
+            BusinessTourism, 
+            RecreationalTourism,
+            WellnessTourism,
+            Pilgrimage
         }
     }
 }
