@@ -15,8 +15,8 @@ public class LookAround : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            transform.RotateAround(transform.position, Vector3.up, speed*Input.GetAxis("Mouse x"));
-            transform.RotateAround(transform.position, transform.right, speed * Input.GetAxis("Mouse y"));
+            transform.RotateAround(transform.position, Vector3.up, speed*Input.GetAxis("Mouse X"));
+            transform.RotateAround(transform.position, transform.right, speed * Input.GetAxis("Mouse Y"));
         }
     }
 }
