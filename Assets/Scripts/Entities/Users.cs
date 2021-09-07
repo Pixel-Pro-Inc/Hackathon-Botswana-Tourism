@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Assets.Scripts.Entities
 {
-    class Users
+    public class Users
     {
         public Users Instance { get; set; }
         public Users()
@@ -19,6 +19,7 @@ namespace Assets.Scripts.Entities
             this.useremail = email;
         }
         public string username { get; set; }
+        public string userid { get; set; }
         public string useremail { get; set; }
         public string userpassword { get; set; }
     }
