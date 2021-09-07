@@ -14,6 +14,7 @@ public class FireBaseHelper : MonoBehaviour
 
     public UnityEvent OnFirebaseInitialized = new UnityEvent();
     private FirebaseDatabase _database;
+    private Firebase.Auth.FirebaseAuth auth= Firebase.Auth.FirebaseAuth.DefaultInstance;
 
 
     void Start()
@@ -51,13 +52,12 @@ public class FireBaseHelper : MonoBehaviour
         });
         OnFirebaseInitialized.Invoke();
     }
-
-    // Update is called once per frame
     void Update()
     {
         
     }
 
+    #region Set User
     private void writeNewUser(string userId, string name, string email)
     {
         Users user = new Users(name, email);
@@ -75,14 +75,88 @@ public class FireBaseHelper : MonoBehaviour
         var datasnap = await _database.GetReference(userId).GetValueAsync();
         return datasnap.Exists;
     }
+    #endregion
+    #region  Collect user
 
-    public async Users LoadUser(string userId)
+    Users loadeduser;
+    public async void LoadUser(string userId)
     {
         var datasnap = await _database.GetReference(userId).GetValueAsync();
-        if (!datasnap.Exists)
-        {
-            return null;
-        }
-        return JsonUtility.FromJson<Users>();
+        if (datasnap.Exists)
+            loadeduser = (Users)JsonUtility.FromJson<Users>(_database.GetReference(userId).Key);
+    }
+    public Users GetLoadedUser(string userId)
+    {
+        LoadUser(userId);
+        return loadeduser;
+    }
+    #endregion
+    #region Erase user
+
+    public void EraseUser(string userid)
+    {
+        _database.GetReference(userid).RemoveValueAsync();
+    }
+    #endregion
+
+    #region Authentication
+    public void AnonymousAuthent()
+    {
+        auth.SignInAnonymouslyAsync().ContinueWith(task => {
+            if (task.IsCanceled)
+            {
+                Debug.LogError("SignInAnonymouslyAsync was canceled.");
+                return;
+            }
+            if (task.IsFaulted)
+            {
+                Debug.LogError("SignInAnonymouslyAsync encountered an error: " + task.Exception);
+                return;
+            }
+
+            Firebase.Auth.FirebaseUser newUser = task.Result;
+            Debug.LogFormat("User signed in successfully: {0} ({1})",
+                newUser.DisplayName, newUser.UserId);
+        });
+    }
+    public void EmailAuthent()
+    {
+        auth.CreateUserWithEmailAndPasswordAsync(loadeduser.username, loadeduser.useremail).ContinueWith(task => {
+            if (task.IsCanceled)
+            {
+                Debug.LogError("CreateUserWithEmailAndPasswordAsync was canceled.");
+                return;
+            }
+            if (task.IsFaulted)
+            {
+                Debug.LogError("CreateUserWithEmailAndPasswordAsync encountered an error: " + task.Exception);
+                return;
+            }
+
+            // Firebase user has been created.
+            Firebase.Auth.FirebaseUser newUser = task.Result;
+            Debug.LogFormat("Firebase user created successfully: {0} ({1})",
+                newUser.DisplayName, newUser.UserId);
+        });
+    }
+    #endregion
+    public void SignIn()
+    {
+        auth.SignInWithEmailAndPasswordAsync(loadeduser.useremail, loadeduser.userpassword).ContinueWith(task => {
+            if (task.IsCanceled)
+            {
+                Debug.LogError("SignInWithEmailAndPasswordAsync was canceled.");
+                return;
+            }
+            if (task.IsFaulted)
+            {
+                Debug.LogError("SignInWithEmailAndPasswordAsync encountered an error: " + task.Exception);
+                return;
+            }
+
+            Firebase.Auth.FirebaseUser newUser = task.Result;
+            Debug.LogFormat("User signed in successfully: {0} ({1})",
+                newUser.DisplayName, newUser.UserId);
+        });
     }
 }
