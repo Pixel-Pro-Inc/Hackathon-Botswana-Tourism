@@ -2,6 +2,7 @@
 using Firebase;
 using Firebase.Database;
 using Firebase.Extensions;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -13,8 +14,10 @@ public class FireBaseHelper : MonoBehaviour
     // Start is called before the first frame update
 
     public UnityEvent OnFirebaseInitialized = new UnityEvent();
+    FirebaseApp app = FirebaseApp.DefaultInstance;
     private FirebaseDatabase _database;
     private Firebase.Auth.FirebaseAuth auth= Firebase.Auth.FirebaseAuth.DefaultInstance;
+    Users loadeduser;
 
 
     void Start()
@@ -27,7 +30,7 @@ public class FireBaseHelper : MonoBehaviour
             {
                 // Create and hold a reference to your FirebaseApp,
                 // where app is a Firebase.FirebaseApp property of your application class.
-                //app = Firebase.FirebaseApp.DefaultInstance; 
+                app = Firebase.FirebaseApp.DefaultInstance; 
 
                 // Set a flag here to indicate whether Firebase is ready to use by your app.
             }
@@ -50,6 +53,7 @@ public class FireBaseHelper : MonoBehaviour
                 return;
             }
         });
+        InitializeFireBase();
         OnFirebaseInitialized.Invoke();
     }
     void Update()
@@ -57,6 +61,14 @@ public class FireBaseHelper : MonoBehaviour
         
     }
 
+    #region Initialise FireBase
+    private void InitializeFireBase()
+    {
+        //app.SetEditorDatabaseUrl("https://hackathon-botswana-tourism-default-rtdb.firebaseio.com");
+        app.Options.DatabaseUrl =new Uri("https://hackathon-botswana-tourism-default-rtdb.firebaseio.com/");
+        Debug.Log("The url has been set and database finnessed");
+    }
+    #endregion
     #region Set User
     private void writeNewUser(string userId, string name, string email)
     {
@@ -78,7 +90,7 @@ public class FireBaseHelper : MonoBehaviour
     #endregion
     #region  Collect user
 
-    Users loadeduser;
+   
     public async void LoadUser(string userId)
     {
         var datasnap = await _database.GetReference(userId).GetValueAsync();
@@ -137,6 +149,7 @@ public class FireBaseHelper : MonoBehaviour
             Firebase.Auth.FirebaseUser newUser = task.Result;
             Debug.LogFormat("Firebase user created successfully: {0} ({1})",
                 newUser.DisplayName, newUser.UserId);
+            writeNewUser(newUser.UserId, newUser.DisplayName, newUser.Email);
         });
     }
     #endregion
@@ -157,6 +170,7 @@ public class FireBaseHelper : MonoBehaviour
             Firebase.Auth.FirebaseUser newUser = task.Result;
             Debug.LogFormat("User signed in successfully: {0} ({1})",
                 newUser.DisplayName, newUser.UserId);
+            GetLoadedUser(newUser.UserId);
         });
     }
 }
