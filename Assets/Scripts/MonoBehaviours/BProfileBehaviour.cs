@@ -72,4 +72,19 @@ public class BProfileBehaviour : MonoBehaviour
     {
         Debug.Log($"{activities.ActivityName}, well you didn't write the logic to actually show it");
     }
+
+    public void CapacityCounter(List<Users> occupyingUsers, double capacitypercentage) //set the availability of a business given the percentage of capacity
+    {
+        int numbers = occupyingUsers.Count;
+        int cureentPercent = (int)(numbers / Business.CovidCapacity);
+        if (cureentPercent > capacitypercentage)
+        {
+            Debug.Log("This place currently can't accept more people, try again in 30 minutes");
+        }
+        else
+        {
+            Debug.Log("Feel free to ome over!");
+        }
+        Business.availabilityValue = cureentPercent;
+    }
 }
