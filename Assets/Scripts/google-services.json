@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "989444447034",
+    "project_id": "hackathon-botswana-tourism",
+    "storage_bucket": "hackathon-botswana-tourism.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:989444447034:android:b23d8d17b26abfe9550e03",
+        "android_client_info": {
+          "package_name": "com.pixelpro.hackathonbotswanatourism"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "989444447034-u7pcht1sb9h1je2328ad1nipnidoe573.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDB9OAa93etRrIo1_4NBdFkIzI7dgiAwlA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "989444447034-u7pcht1sb9h1je2328ad1nipnidoe573.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
